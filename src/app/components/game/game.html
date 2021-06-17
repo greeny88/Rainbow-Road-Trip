@@ -1,0 +1,16 @@
+<div id="game">
+    <div id="totals">
+        <div id="score">Score: {{ score }}</div>
+        <div id="counts" style="font-size:2rem;">
+            <div>Red: {{ count.red }}</div>
+            <div>Orange: {{ count.orange }}</div>
+            <div>Yellow: {{ count.yellow }}</div>
+            <div>Green: {{ count.green }}</div>
+            <div>Blue: {{ count.blue }}</div>
+            <div>Purple: {{ count.purple }}</div>
+        </div>
+    </div>
+    <div id="buttons">
+        <button mat-flat-button *ngFor="let color of colors" (click)="addColor(color)" [ngStyle]="{'background-color': color}">{{color}}<img src="./car.svg"></button>
+    </div>
+</div>

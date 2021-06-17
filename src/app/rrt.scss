@@ -1,0 +1,135 @@
+//@import "node_modules/bootstrap/scss/bootstrap";
+
+@import "node_modules/material-components-web/material-components-web";
+@import 'node_modules/@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+// TODO: change color
+$rrt-app-primary: mat-palette($mat-green);
+$rrt-app-accent:  mat-palette($mat-amber);
+
+// The warn palette is optional (defaults to red).
+$rrt-app-warn:    mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$rrt-app-theme: mat-light-theme($rrt-app-primary, $rrt-app-accent, $rrt-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($rrt-app-theme);
+
+// TODO: create rainbow, diagonal gradient for background
+
+// body {
+//     background: white;
+//     background: linear-gradient(135deg, red 0%, orange 20%, yellow 40%, green 60%, blue 80%, purple 100%);
+// }
+
+// a, a:visited {
+//     color: #FFF;
+// }
+
+// a:hover {
+//     color: #ffc107;
+// }
+
+footer {
+    text-align: center;
+    font-size: 0.75rem;
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+    border-top: 1px solid rgba(0, 0, 0, .42);
+}
+
+mat-sidenav-container {
+    mat-sidenav {
+        padding: 0.5rem;
+    }
+    mat-sidenav-content {
+        margin: 0.5rem;
+        // background: white;
+    }
+}
+
+// snack-bar-container {
+//     background-color: #ffc107 !important;
+// }
+
+.bold-text {
+    font-weight: bold;
+}
+
+body, .mat-toolbar {
+    // background: white !important;
+    background: linear-gradient(90deg,
+        red 0%,
+        red 5%, 
+        orange 22%, 
+        yellow 44%, 
+        green 56%, 
+        blue 78%, 
+        purple 95%,
+        purple 100%) !important;
+}
+
+#mainContainer {
+    min-height: 50%;
+    background: repeating-linear-gradient(135deg, 
+        red 0%, 
+        red 5%,
+        orange 5%,
+        orange 10%,
+        yellow 10%,
+        yellow 15%,
+        green 15%,
+        green 20%,
+        blue 20%,
+        blue 25%,
+        purple 25%,
+        purple 30%);
+    
+    // background: repeating-linear-gradient(135deg, 
+    //     red , 
+    //     red 2rem,
+    //     orange 2rem,
+    //     orange 4rem,
+    //     yellow 4rem,
+    //     yellow 6rem,
+    //     green 6rem,
+    //     green 8rem,
+    //     blue 8rem,
+    //     blue 10rem,
+    //     purple 10rem,
+    //     purple 12rem);
+}
+
+#mainDisplay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+@media screen {
+    .top-bar {
+        border-bottom: 1px solid rgba(0, 0, 0, .42);
+    }
+}
+
+@media only screen and (max-width : 415px) {
+    mat-sidenav-container {
+        mat-sidenav {
+            width: 100%;
+        }
+    }
+}

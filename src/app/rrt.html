@@ -1,0 +1,21 @@
+<div id="mainDisplay">
+    <mat-toolbar class="top-bar mat-primary">
+        <mat-toolbar-row>
+            <button mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <h1>Rainbow Road Trip</h1>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-sidenav-container id="mainContainer">
+        <mat-sidenav #sidenav mode="side">
+            <p><a routerLink="/game" (click)="sidenav.close()">Game</a></p>
+            <p><a routerLink="/rules" (click)="sidenav.close()">Rules</a></p>
+            <p><a routerLink="/settings" (click)="sidenav.close()">Settings</a></p>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+    <footer>For Mae and Ike.</footer>
+</div>
