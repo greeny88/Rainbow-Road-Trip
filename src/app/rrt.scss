@@ -12,8 +12,7 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-// TODO: change color
-$rrt-app-primary: mat-palette($mat-green);
+$rrt-app-primary: mat-palette($mat-deep-purple);
 $rrt-app-accent:  mat-palette($mat-amber);
 
 // The warn palette is optional (defaults to red).
@@ -26,21 +25,6 @@ $rrt-app-theme: mat-light-theme($rrt-app-primary, $rrt-app-accent, $rrt-app-warn
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($rrt-app-theme);
-
-// TODO: create rainbow, diagonal gradient for background
-
-// body {
-//     background: white;
-//     background: linear-gradient(135deg, red 0%, orange 20%, yellow 40%, green 60%, blue 80%, purple 100%);
-// }
-
-// a, a:visited {
-//     color: #FFF;
-// }
-
-// a:hover {
-//     color: #ffc107;
-// }
 
 footer {
     text-align: center;
@@ -56,13 +40,8 @@ mat-sidenav-container {
     }
     mat-sidenav-content {
         margin: 0.5rem;
-        // background: white;
     }
 }
-
-// snack-bar-container {
-//     background-color: #ffc107 !important;
-// }
 
 .bold-text {
     font-weight: bold;
@@ -72,12 +51,12 @@ body, .mat-toolbar {
     // background: white !important;
     background: linear-gradient(90deg,
         red 0%,
-        red 5%, 
-        orange 22%, 
-        yellow 44%, 
-        green 56%, 
+        red 2.5%, 
+        orange 21%, 
+        yellow 40%, 
+        green 59%, 
         blue 78%, 
-        purple 95%,
+        purple 97.5%,
         purple 100%) !important;
 }
 
@@ -96,20 +75,6 @@ body, .mat-toolbar {
         blue 25%,
         purple 25%,
         purple 30%);
-    
-    // background: repeating-linear-gradient(135deg, 
-    //     red , 
-    //     red 2rem,
-    //     orange 2rem,
-    //     orange 4rem,
-    //     yellow 4rem,
-    //     yellow 6rem,
-    //     green 6rem,
-    //     green 8rem,
-    //     blue 8rem,
-    //     blue 10rem,
-    //     purple 10rem,
-    //     purple 12rem);
 }
 
 #mainDisplay {
@@ -120,10 +85,8 @@ body, .mat-toolbar {
     right: 0;
 }
 
-@media screen {
-    .top-bar {
-        border-bottom: 1px solid rgba(0, 0, 0, .42);
-    }
+.top-bar {
+    border-bottom: 1px solid rgba(0, 0, 0, .42);
 }
 
 @media only screen and (max-width : 415px) {
