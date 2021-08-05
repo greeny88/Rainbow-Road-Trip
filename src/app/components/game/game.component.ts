@@ -13,13 +13,13 @@ export class GameComponent {
     colors: string[];
     colorValues: Object;
     count: Object;
+    displayRainbow: boolean;
+    gameLoading: boolean;
+    previousRainbowCount: number;
     score: number;
 
     constructor(private idb: IDBService) {
         // TODO: Make this configurable (because kids like teal and pink for some reason)
-        // this.colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
-        // this.count = {};
-        // TODO: Make this configurable
         this.colorValues = {
             'red': 1,
             'orange': 3,
@@ -29,21 +29,24 @@ export class GameComponent {
             'purple': 3
         };
         this.colors = Object.keys(this.colorValues);
+        this.gameLoading = true;
+        this.previousRainbowCount = 0;
         this.score = 0;
     }
 
     ngOnInit() {
         this.idb.getGameData().subscribe(data => {
             this.count = data;
-            console.log('count', this.count);
+            delete this.count['type'];
 
             if (this.count === undefined) {
                 this.count = {};
                 for (let color of Object.keys(this.colorValues)) {
                     this.count[color] = 0;
                 }
-                console.log('count', this.count);
             }
+            this.calculateScore();
+            this.gameLoading = false;
         });
     }
 
@@ -58,7 +61,20 @@ export class GameComponent {
         for (let color in this.count) {
             this.score += (color in this.colorValues) ? this.colorValues[color] * this.count[color] : 1 * this.count[color];
         }
-        this.score += Math.min(...Object.values(this.count)) * 10; // value of each rainbow is 10
+        const currentRainbowCount = Math.min(...Object.values(this.count));
+        if (this.previousRainbowCount != currentRainbowCount) {
+            this.displayTheRainbow();
+            this.previousRainbowCount = currentRainbowCount;
+        }
+        this.score += currentRainbowCount * 10; // value of each rainbow is 10
+    }
+
+    private displayTheRainbow() {
+        if (this.gameLoading) {
+            return;
+        }
+        this.displayRainbow = true;
+        setTimeout(() => this.displayRainbow = false, 3000);
     }
 
     resetScore() {

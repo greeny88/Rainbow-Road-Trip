@@ -1,4 +1,62 @@
 #game {
+    #carRainbow {
+        font-size: 5rem;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        background-color: rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        div {
+            // flex: 1 1 auto;
+            text-align: center;
+
+            /*
+            * Animation variables
+            */
+            $animationSteps: 60;
+            $animationDuration: 10;
+            $animationElement: span;
+            $animationElementsCount: 100;
+            $delayBetweenLetters: 0.2;
+
+            /*
+            * Elements settings
+            */
+            #{$animationElement} {
+                animation-name: anim-text-flow-keys;
+                animation-duration: #{$animationDuration}s;
+                animation-iteration-count: infinite;
+                animation-direction: alternate;
+                animation-fill-mode: forwards;
+            }
+
+            /*
+            * Keyframe loop
+            */
+            @keyframes anim-text-flow-keys {
+                @for $i from 0 through $animationSteps {
+                    #{percentage($i * (1 / $animationSteps))} {
+                        color: hsla(random(365), 60, 60, 1);
+                    }
+                }
+            }
+
+            /*
+            * Element animation delay loop
+            */
+            $totalDelayTime: $animationElementsCount * $delayBetweenLetters;
+
+            @for $i from 1 through $animationElementsCount {
+                #{$animationElement}:nth-of-type(#{$i}) {
+                    animation-delay: #{($i * $delayBetweenLetters) - $totalDelayTime}s;
+                }
+            }
+        }
+    }
     #totals {
         background-color:rgba(255,255,255, 0.8);
         text-align:center;
