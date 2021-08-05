@@ -5,11 +5,7 @@ import { Observable } from "rxjs";
 export class IDBService {
     private db: IDBDatabase;
 
-    constructor() {
-        // this.getDb();
-    }
-
-    // TODO: Use observers so that we can act when complete?
+    constructor() { }
 
     clearConfigData(): Observable<any> {
         return new Observable(observer => {
@@ -42,7 +38,9 @@ export class IDBService {
     // }
 
     updateGameData(gameData): void {
-        this.updateData('game_data', gameData);
+        let data = JSON.parse(JSON.stringify(gameData));
+        data['type'] = 'count';
+        this.updateData('game_data', data);
     }
 
     // updateGameData(gameData): Observable<any> {
@@ -72,10 +70,10 @@ export class IDBService {
             };
             request.onupgradeneeded = (e: IDBVersionChangeEvent) => {
                 console.log('onupgrade');
-                // (<any>e.target).result.createObjectStore('config_data', { keyPath: 'id', autoIncrement: true });
-                // (<any>e.target).result.createObjectStore('game_data', { keyPath: 'id', autoIncrement: true });
-                (<any>e.target).result.createObjectStore('config_data');
-                (<any>e.target).result.createObjectStore('game_data');
+                (<any>e.target).result.createObjectStore('config_data', { keyPath: 'type' });
+                (<any>e.target).result.createObjectStore('game_data', { keyPath: 'type' });
+                // (<any>e.target).result.createObjectStore('config_data');
+                // (<any>e.target).result.createObjectStore('game_data');
             };
             request.onsuccess = () => {
                 console.log('onsuccess');
