@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, Subscriber } from "rxjs";
 
 @Injectable()
 export class IDBService {
@@ -9,13 +9,13 @@ export class IDBService {
 
     clearConfigData(): Observable<any> {
         return new Observable(observer => {
-            this.clearData('config_data');
+            this.clearData(observer, 'config_data');
         });
     }
 
     clearGameData(): Observable<any> {
         return new Observable(observer => {
-            this.clearData('game_data');
+            this.clearData(observer, 'game_data');
         });
     }
 
@@ -31,27 +31,17 @@ export class IDBService {
         });
     }
 
-    // updateConfigData(configData): Observable<any> {
-    //     return new Observable(observer => {
-    //         this.updateData(observer, 'config_data', configData);
-    //     });
-    // }
-
     updateGameData(gameData): void {
         let data = JSON.parse(JSON.stringify(gameData));
         data['type'] = 'count';
         this.updateData('game_data', data);
     }
 
-    // updateGameData(gameData): Observable<any> {
-    //     return new Observable(observer => {
-    //         this.updateData(observer, 'game_data', gameData);
-    //     });
-    // }
-
-    private clearData(store: string) {
+    private clearData(observer: Subscriber<any>, store: string) {
         this.getDb().subscribe(db => {
             db.transaction(store, 'readwrite').objectStore(store).clear();
+            observer.next(null);
+            observer.complete();
         });
     }
 
@@ -59,7 +49,7 @@ export class IDBService {
         return new Observable(observer => {
             if (this.db) {
                 observer.next(this.db);
-                // return this.db;
+                observer.complete();
             }
     
             const request: IDBOpenDBRequest = window.indexedDB.open('rainbow_road_trip', 1);
@@ -72,19 +62,18 @@ export class IDBService {
                 console.log('onupgrade');
                 (<any>e.target).result.createObjectStore('config_data', { keyPath: 'type' });
                 (<any>e.target).result.createObjectStore('game_data', { keyPath: 'type' });
-                // (<any>e.target).result.createObjectStore('config_data');
-                // (<any>e.target).result.createObjectStore('game_data');
             };
             request.onsuccess = () => {
                 console.log('onsuccess');
                 this.db = request.result;
                 // return this.db;
                 observer.next(this.db);
+                observer.complete();
             };
         });
     }
 
-    private getSingleData(observer, store: string): any {
+    private getSingleData(observer: Subscriber<any>, store: string): any {
         this.getDb().subscribe(db => {
             const transaction: IDBTransaction = db.transaction(store, 'readonly');
             const objectStore: IDBObjectStore = transaction.objectStore(store);
@@ -95,7 +84,6 @@ export class IDBService {
     
                 if (cursor) {
                     if (cursor.value) {
-                        // observer.next(cursor.value);
                         data = cursor.value;
                     }
                     cursor.continue();
@@ -113,13 +101,4 @@ export class IDBService {
             db.transaction(store, 'readwrite').objectStore(store).put(data);
         });
     }
-
-    // private updateData(observer, store: string, data: any) {
-    //     this.getDb().subscribe(db => {
-    //         db.transaction(store, 'readwrite').objectStore(store).put(data);
-    //         // TODO: check success
-    //         observer.next();
-    //     })
-    // }
-
 }
