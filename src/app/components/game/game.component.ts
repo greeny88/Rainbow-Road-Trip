@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { IDBService } from '../idb.service';
 
 import template from './game.html';
+import confirmReset from './confirm-reset.html';
 
 @Component({
     selector: 'game',
@@ -18,7 +20,7 @@ export class GameComponent {
     previousRainbowCount: number;
     score: number;
 
-    constructor(private idb: IDBService) {
+    constructor(private idb: IDBService, private dialog: MatDialog) {
         // TODO: Make this configurable (because kids like teal and pink for some reason)
         this.colorValues = {
             'red': 1,
@@ -37,7 +39,9 @@ export class GameComponent {
     ngOnInit() {
         this.idb.getGameData().subscribe(data => {
             this.count = data;
-            delete this.count['type'];
+            if ('type' in this.count) {
+                delete this.count['type'];
+            }
 
             if (this.count === undefined) {
                 this.count = {};
@@ -78,12 +82,36 @@ export class GameComponent {
     }
 
     resetScore() {
-        this.idb.clearGameData();
+        const dialogRef = this.dialog.open(ConfirmResetDialog);
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.idb.clearGameData();
+                this.previousRainbowCount = 0;
+                this.count = {};
+                for (let color of Object.keys(this.colorValues)) {
+                    this.count[color] = 0;
+                }
+                this.calculateScore();
+            }
+        });
     }
 
     removeColor(color: string) {
         this.count[color] -= (this.count[color] > 0) ? 1 : 0;
         this.idb.updateGameData(this.count);
         this.calculateScore();
+    }
+}
+
+@Component({
+    selector: 'confirm-reset',
+    template: confirmReset,
+})
+export class ConfirmResetDialog {
+
+    constructor(public dialogRef: MatDialogRef<ConfirmResetDialog>) { }
+
+    onNoClick(): void {
+        this.dialogRef.close();
     }
 }

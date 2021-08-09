@@ -15,6 +15,7 @@
         </div>
     </div>
     <div id="buttons">
-        <button mat-flat-button *ngFor="let color of colors" (click)="addColor(color)" [ngStyle]="{'background-color': color}">{{color}}<img src="./car.svg"></button>
+        <button mat-stroked-button *ngFor="let color of colors" (click)="addColor(color)" [ngStyle]="{'background-color': color}"><span>{{color}}</span><img src="./car.svg"></button>
+        <button mat-stroked-button (click)="resetScore()">Reset Score</button>
     </div>
 </div>

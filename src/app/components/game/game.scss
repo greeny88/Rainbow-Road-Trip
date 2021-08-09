@@ -86,6 +86,9 @@
             border-width: 0.5rem;
             margin: 1rem;
             font-size: 1.5rem;
+            .mat-button-wrapper * {
+                display: block;
+            }
         }
     }
 }
