@@ -1,6 +1,7 @@
 #game {
     #carRainbow {
         font-size: 5rem;
+        line-height: 7.5rem;
         width: 100%;
         height: 100%;
         position: fixed;
@@ -10,6 +11,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        z-index: 426;
         div {
             // flex: 1 1 auto;
             text-align: center;
@@ -63,11 +65,13 @@
 
         #score {
             font-size:3rem;
+            line-height:4.5rem;
         }
         #counts {
             display: flex;
             flex-flow: row wrap;
-            font-size:2rem;
+            font-size: 2rem;
+            line-height:3rem;
 
             div {
                 flex: 1 1 auto;
@@ -86,7 +90,7 @@
             border-width: 0.5rem;
             margin: 1rem;
             font-size: 1.5rem;
-            .mat-button-wrapper * {
+            .mat-button-wrapper > * {
                 display: block;
             }
         }

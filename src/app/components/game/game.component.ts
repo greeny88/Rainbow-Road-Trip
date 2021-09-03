@@ -18,6 +18,7 @@ export class GameComponent {
     displayRainbow: boolean;
     gameLoading: boolean;
     previousRainbowCount: number;
+    removeMode: boolean;
     score: number;
 
     constructor(private idb: IDBService, private dialog: MatDialog) {
@@ -33,13 +34,14 @@ export class GameComponent {
         this.colors = Object.keys(this.colorValues);
         this.gameLoading = true;
         this.previousRainbowCount = 0;
+        this.removeMode = false;
         this.score = 0;
     }
 
     ngOnInit() {
         this.idb.getGameData().subscribe(data => {
             this.count = data;
-            if ('type' in this.count) {
+            if (this.count != undefined && 'type' in this.count) {
                 delete this.count['type'];
             }
 
@@ -54,22 +56,16 @@ export class GameComponent {
         });
     }
 
-    addColor(color: string) {
-        this.count[color] += 1;
-        this.idb.updateGameData(this.count);
-        this.calculateScore();
-    }
-
     private calculateScore() {
         this.score = 0;
         for (let color in this.count) {
             this.score += (color in this.colorValues) ? this.colorValues[color] * this.count[color] : 1 * this.count[color];
         }
         const currentRainbowCount = Math.min(...Object.values(this.count));
-        if (this.previousRainbowCount != currentRainbowCount) {
+        if (this.previousRainbowCount < currentRainbowCount) {
             this.displayTheRainbow();
-            this.previousRainbowCount = currentRainbowCount;
         }
+        this.previousRainbowCount = currentRainbowCount;
         this.score += currentRainbowCount * 10; // value of each rainbow is 10
     }
 
@@ -81,11 +77,21 @@ export class GameComponent {
         setTimeout(() => this.displayRainbow = false, 3000);
     }
 
+    modifyColor(color: string) {
+        if (this.removeMode) {
+            this.count[color] -= (this.count[color] > 0) ? 1 : 0;
+        } else {
+            this.count[color] += 1;
+        }
+        this.calculateScore();
+        this.idb.updateGameData(this.count);
+    }
+
     resetScore() {
         const dialogRef = this.dialog.open(ConfirmResetDialog);
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.idb.clearGameData();
+                this.idb.clearGameData().subscribe(() => {});
                 this.previousRainbowCount = 0;
                 this.count = {};
                 for (let color of Object.keys(this.colorValues)) {
@@ -96,10 +102,8 @@ export class GameComponent {
         });
     }
 
-    removeColor(color: string) {
-        this.count[color] -= (this.count[color] > 0) ? 1 : 0;
-        this.idb.updateGameData(this.count);
-        this.calculateScore();
+    toggleRemoveMode() {
+        this.removeMode = !this.removeMode;
     }
 }
 

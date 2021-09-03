@@ -1,21 +1,16 @@
-<div id="game">
+<div id="game" *ngIf="!gameLoading">
     <div id="carRainbow" *ngIf="displayRainbow">
         <div><span>CAR RAINBOW!!!</span></div>
     </div>
     <div id="totals">
         <div id="score">Score: {{ score }}</div>
-        <!-- TODO: change this to be dynamic since it could be changed in the settings -->
-        <div id="counts" style="font-size:2rem;">
-            <div>Red: {{ count?.red }}</div>
-            <div>Orange: {{ count?.orange }}</div>
-            <div>Yellow: {{ count?.yellow }}</div>
-            <div>Green: {{ count?.green }}</div>
-            <div>Blue: {{ count?.blue }}</div>
-            <div>Purple: {{ count?.purple }}</div>
+        <div id="counts">
+            <div *ngFor="let color of colors">{{ color }}: {{ count[color] }}</div>
         </div>
     </div>
     <div id="buttons">
-        <button mat-stroked-button *ngFor="let color of colors" (click)="addColor(color)" [ngStyle]="{'background-color': color}"><span>{{color}}</span><img src="./car.svg"></button>
+        <button mat-stroked-button *ngFor="let color of colors" (click)="modifyColor(color)" [ngStyle]="{'background-color': color}"><span>{{color}}</span><img src="./car.svg"></button>
         <button mat-stroked-button (click)="resetScore()">Reset Score</button>
+        <button mat-stroked-button (click)="toggleRemoveMode()"><span><span *ngIf="removeMode">Disable</span><span *ngIf="!removeMode">Enable</span> Remove</span></button>
     </div>
 </div>
