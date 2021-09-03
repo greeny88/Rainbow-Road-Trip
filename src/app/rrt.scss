@@ -1,6 +1,4 @@
-//@import "node_modules/bootstrap/scss/bootstrap";
-
-@import "node_modules/material-components-web/material-components-web";
+@import 'node_modules/material-components-web/material-components-web';
 @import 'node_modules/@angular/material/theming';
 // Plus imports for other components in your app.
 
@@ -25,6 +23,14 @@ $rrt-app-theme: mat-light-theme($rrt-app-primary, $rrt-app-accent, $rrt-app-warn
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($rrt-app-theme);
+
+//   $headline: mat-typography-level(32px, 48px, 800),
+//   $body-1: mat-typography-level(16px, 24px, 600)
+// $custom-typography: mat-typography-config(
+//   $font-family: 'Nunito, Roboto, sans-serif'
+// );
+
+// @include angular-material-typography($custom-typography);
 
 footer {
     text-align: center;
