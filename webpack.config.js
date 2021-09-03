@@ -49,6 +49,13 @@ const workboxPlugin = new WorkboxPlugin.GenerateSW({
 			options: {
 				cacheName: 'google-fonts-icons'
 			}
+		},
+		{
+			urlPattern: /^https:\/\/fonts\.googleapis\.com\/css2/,
+			handler: 'StaleWhileRevalidate',
+			options: {
+				cacheName: 'google-fonts-css'
+			}
 		}
 	],
 	skipWaiting: true
