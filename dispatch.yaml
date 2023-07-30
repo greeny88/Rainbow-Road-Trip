@@ -1,0 +1,5 @@
+dispatch:
+  - url: "*/Freeband-Freeblades-Builder/*"
+    service: ffb
+  - url: "*/.*"
+    service: default
