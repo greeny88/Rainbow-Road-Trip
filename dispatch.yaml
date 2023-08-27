@@ -1,5 +1,5 @@
 dispatch:
-  - url: "rainbow-road-trip.uc.r.appspot.com/freeblades-freeband-builder"
+  - url: "rainbow-road-trip.uc.r.appspot.com/freeblades-freeband-builder*"
     service: ffb
   - url: "rainbow-road-trip.uc.r.appspot.com/"
     service: default
